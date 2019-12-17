@@ -9,7 +9,7 @@ import { account } from '../selectors'
 const PrivateRoute = ({ component: Component, subscription = true, path, ...rest }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { isAuthenticated, loginWithRedirect} = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const { active, loading } = useSelector(account)
 
   // check auth status
@@ -38,7 +38,7 @@ const PrivateRoute = ({ component: Component, subscription = true, path, ...rest
   }, [active, subscription])
 
   const render = props =>
-    isAuthenticated === true ? <Component active={active} loading={loading} {...props} /> : null;
+    isAuthenticated === true ? <Component active={active} loading={loading} user={user} {...props} /> : null;
 
   return (
     <Route path={path} render={render} {...rest} />

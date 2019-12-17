@@ -30,3 +30,7 @@
 .spinner.absolute {
   position: absolute;
 }
+
+.scroll {
+  overflow: auto;
+}

@@ -28,7 +28,7 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
-    <Grommet plain className="h-100">
+    <Grommet plain full className="no-scroll">
       <Provider store={store}>
         <App /> 
       </Provider>
