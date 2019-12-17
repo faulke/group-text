@@ -1,5 +1,7 @@
-import { isRSAA, RSAA, getJSON } from 'redux-api-middleware';
-import { getTokenSilently } from '../react-auth0-spa';
+import { isRSAA, RSAA, getJSON } from 'redux-api-middleware'
+import { getTokenSilently } from '../react-auth0-spa'
+import history from "../utils/history"
+import { SUBSCRIPTION_ERROR } from '../data/constants'
 
 // add auth meta handlers to rsaa actions
 // handle failure payload
@@ -9,7 +11,7 @@ const copyActionTypes = (copiedTypes) => {
 
   };
 
-  const failureMeta = (act, state, res) => {
+  const failureMeta = async (act, state, res) => {
     if (res.status === 401) {
 
     }
@@ -22,7 +24,15 @@ const copyActionTypes = (copiedTypes) => {
     }
   };
 
-  const failurePayload = (act, state, res) => getJSON(res);
+  const failurePayload = async (act, state, res) => {
+    const body = await getJSON(res)
+    if (res.status === 401) {
+      if (body.error && body.error === SUBSCRIPTION_ERROR) {
+        history.push('/subscribe')
+      }
+    }
+    return body
+  }
 
   const request = copiedTypes[0];
   const success = {

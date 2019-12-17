@@ -19,16 +19,17 @@ export const checkSubscriptionStatus = () => ({
     types: [
       SUBSCRIPTION_STATUS_REQUEST,
       SUBSCRIPTION_STATUS_SUCCESS,
-      {
-        type: SUBSCRIPTION_STATUS_FAILURE,
-        payload: async (act, state, res) => {
-          const body = await getJSON(res)
-          if (body.error && body.error === SUBSCRIPTION_ERROR) {
-            history.push('/subscribe')
-          }
-          return body
-        }
-      }
+      SUBSCRIPTION_STATUS_FAILURE
+      // {
+      //   type: SUBSCRIPTION_STATUS_FAILURE,
+      //   payload: async (act, state, res) => {
+      //     const body = await getJSON(res)
+      //     if (body.error && body.error === SUBSCRIPTION_ERROR) {
+      //       history.push('/subscribe')
+      //     }
+      //     return body
+      //   }
+      // }
     ]
   }
 })

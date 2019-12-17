@@ -12,7 +12,7 @@ const account = (state = initialState, action) => {
     case actions.SUBSCRIPTION_STATUS_REQUEST:
       return { ...state, loading: true}
     case actions.SUBSCRIPTION_STATUS_SUCCESS:
-      return { ...state, loading: false, active: payload }
+      return { ...state, loading: false, active: true }
     case actions.SUBSCRIPTION_STATUS_FAILURE:
       return { ...state, loading: false, active: false }
     default:

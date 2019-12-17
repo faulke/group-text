@@ -21,7 +21,7 @@ const App = () => {
   const { loading } = useAuth0();
 
   if (loading) {
-    return <Loading />;
+    return <Loading absolute={true} />;
   }
 
   return (
@@ -30,6 +30,7 @@ const App = () => {
         <Switch>
           <Route path="/login" exact component={LoginLayout} />
           <PrivateRoute path="/subscribe" exact subscription={false} component={SubscribeLayout} />
+          <PrivateRoute path="/account" exact subscription={false} component={DefaultLayout} />
           <PrivateRoute path="/" component={DefaultLayout} />
         </Switch>
         <Footer />
