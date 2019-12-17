@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { matchPath, useHistory } from 'react-router-dom'
 import {
-  Box,
-  Text
+  Box
 } from 'grommet'
 import {
-  Chat,
+  CircleQuestion,
   Home,
-  SettingsOption
+  SettingsOption,
+  Group,
+  Tree,
+  Schedules
 } from 'grommet-icons'
 import MenuButton from './MenuButton'
 import UserMenu from './UserMenu'
@@ -21,9 +22,19 @@ const SideBar = ({ user }) => {
       path: '/'
     },
     {
-      label: 'Messages',
-      Icon: Chat,
-      path: '/messages'
+      label: 'Groups',
+      Icon: Group,
+      path: '/groups'
+    },
+    {
+      label: 'Phone Trees',
+      Icon: Tree,
+      path: '/trees'
+    },
+    {
+      label: 'Scheduled',
+      Icon: Schedules,
+      path: '/scheduled'
     },
     {
       label: 'Account',
@@ -52,6 +63,12 @@ const SideBar = ({ user }) => {
           ))
         }
       </Box>
+      <MenuButton
+        active={false}
+        Icon={CircleQuestion}
+        label="Help"
+        path="/help"
+      />
       {
         user && (
           <UserMenu user={user} />
