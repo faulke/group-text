@@ -1,16 +1,33 @@
-import React, { Fragment } from "react";
-
-import Hero from "../components/Hero";
-import Content from "../components/Content";
+import React from "react";
+import {
+  Box,
+  Heading,
+  Text
+} from 'grommet'
+import { useSelector } from 'react-redux'
+import { account as accountState }  from '../selectors'
 
 const Home = () => {
-  return (
-    <Fragment>
-      <Hero />
-      <hr />
-      <Content />
-    </Fragment>
-  )
-};
+  const { account } = useSelector(accountState)
 
-export default Home;
+  return (
+    <div className="page-container">
+      {
+        account && (
+          
+          <Box
+            fill
+            alignContent="center"
+            justify="center"
+            pad="large"
+          >
+            <Heading level={2}>Your phone number is:</Heading>
+            <Text>{account.number.friendly_name}</Text>
+          </Box>
+        )
+      }
+    </div>
+  )
+}
+
+export default Home
