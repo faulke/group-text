@@ -1,13 +1,16 @@
 import React from 'react'
+import { Box } from 'grommet'
 import Subscribe from '../views/Subscribe'
 import NavBar from '../components/NavBar'
 
 const SubscribeLayout = () => {
   return (
-    <div>
-      <NavBar/>
-      <Subscribe />
-    </div>
+    <Box fill>
+      <NavBar />
+      <Box flex pad="small" overflow="auto">
+        <Subscribe />
+      </Box>
+    </Box>
   )
 }
 
