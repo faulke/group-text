@@ -78,4 +78,8 @@ const SideBar = ({ user }) => {
   )
 }
 
+SideBar.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
 export default SideBar

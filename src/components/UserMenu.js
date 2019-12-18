@@ -13,6 +13,7 @@ const UserMenu = ({ user = {}, ...rest }) => {
     <Menu
       dropAlign={{ bottom: "top" }}
       icon={false}
+      justifyContent="center"
       items={[
         {
           label: 'Log Out',
