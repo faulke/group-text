@@ -10,7 +10,7 @@ const account = (state = initialState, action) => {
 
   switch (type) {
     case actions.GET_ACCOUNT_REQUEST:
-      return { ...state, loading: true}
+      return { ...state, loading: true }
     case actions.GET_ACCOUNT_SUCCESS:
       return { ...state, loading: false, account: payload }
     case actions.GET_ACCOUNT_FAILURE:

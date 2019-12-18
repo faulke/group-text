@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Route, useHistory } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
 import { getAccount } from '../actions'
-import { account as accountActions }  from '../selectors'
+import { account as accountState }  from '../selectors'
 
 const PrivateRoute = ({ component: Component, subscription = true, path, ...rest }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const { account, loading } = useSelector(accountActions)
+  const { account, loading } = useSelector(accountState)
 
   // check auth status
   useEffect(() => {

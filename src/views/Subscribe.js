@@ -1,37 +1,36 @@
-import React, { Fragment, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { getPlans } from '../actions'
+import { plans as planState } from '../selectors'
 import { useAuth0 } from "../react-auth0-spa";
 import {
   Box,
-  Grid,
   Button,
   Heading,
   Text,
   Paragraph,
 } from 'grommet'
 import { StatusGood } from 'grommet-icons'
+import Loading from '../components/Loading'
 
 const Subscribe = () => {
+  const dispatch = useDispatch()
+  const { plans, loading } = useSelector(planState)
   const { user, getTokenSilently } = useAuth0();
   const stripe = Stripe('pk_test_V7E7AGZxoXcQpcqiPHUuCL5r000x7cVtUV') //eslint-disable-line
 
-  const plans = [
-    {
-      id: 'plan_G8f2gvSSFPdMPC',
-      name: 'Monthly',
-      cost: '19.99',
-      term: 'month',
-      description: 'All available features billed on a recurring monthly basis.'
-    },
-    {
-      id: 'plan_G8f43EJ50rVqgi',
-      name: 'Annual',
-      cost: '199.99',
-      term: 'year',
-      description: 'All available features for an entire year.  Cancel any time.'
-    }
-  ]
+  const [plan, setPlan] = useState()
 
-  const [plan, setPlan] = useState(plans[1])
+  // fetch plans
+  useEffect(() => {
+    if (!plans.length) {
+      dispatch(getPlans)
+    } else {
+      setPlan(plans[1])
+    }
+  }, [plans])
+
+
 
   const handleClick = async () => {
     const token = await getTokenSilently();
@@ -40,7 +39,7 @@ const Subscribe = () => {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      body: `{"planId": "${plan.id}", "email":"${user.email}"}`
+      body: `{"planId": "${plan.stripe_id}", "email":"${user.email}"}`
     })
     const json = await res.json()
     
@@ -49,11 +48,21 @@ const Subscribe = () => {
     })
   }
 
+  if (loading) {
+    return (
+      <div className="page-container">
+        <Box fill direction="row" alignContent="center" justify="center">
+          <Loading />
+        </Box>
+      </div>
+    )
+  }
+
   return (
     <div className="page-container">
-      <Box direction="row-responsive" >
+      <Box direction="row-responsive">
         {
-          plans.map((option) => (
+          plan && plans.map((option) => (
             <Box
               pad="large"
               fill
@@ -91,32 +100,36 @@ const Subscribe = () => {
                     size="xxlarge"
                     weight="bold"
                   >
-                    ${ option.cost }
+                    ${ option.amount/100 }
                   </Text>
-                  <Text alignSelf="center">a { option.term }</Text>
+                  <Text alignSelf="center">a { option.interval }</Text>
                 </Box>
               </Box>
             </Box>
           ))
         }
       </Box>
-      <Box
-        border="all"
-        alignContent="between"
-        pad="small"
-      >
-        <Box border="bottom" pad={{ vertical: 'medium' }}>
-          <Text size="large" weight="bold">{plan.name} plan</Text>
-          <Text>Billed {plan.term}ly</Text>
-          <Text>All features</Text>
-        </Box>
-        <Box flex border="bottom" alignContent="center" justify="center" pad={{ vertical: 'medium' }}>
-          <Text size="large" weight="bold" textAlign="center">${plan.cost}</Text>
-        </Box>
-        <Box flex alignContent="center" justify="center" pad={{ vertical: 'medium' }}>
-          <Button alignSelf="center" primary label="Continue to payment" onClick={handleClick} />
-        </Box>
-      </Box>
+      {
+        plan && (
+          <Box
+            border="all"
+            alignContent="between"
+            pad="small"
+          >
+            <Box border="bottom" pad={{ vertical: 'medium' }}>
+              <Text size="large" weight="bold">{plan.name} plan</Text>
+              <Text>Billed {plan.interval}ly</Text>
+              <Text>All features</Text>
+            </Box>
+            <Box flex border="bottom" alignContent="center" justify="center" pad={{ vertical: 'medium' }}>
+              <Text size="large" weight="bold" textAlign="center">${plan.amount/100}</Text>
+            </Box>
+            <Box flex alignContent="center" justify="center" pad={{ vertical: 'medium' }}>
+              <Button alignSelf="center" primary label="Continue to payment" onClick={handleClick} />
+            </Box>
+          </Box>
+        )
+      }
     </div>
   )
 }

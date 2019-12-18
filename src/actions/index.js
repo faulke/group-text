@@ -21,3 +21,20 @@ export const getAccount = () => ({
     ]
   }
 })
+
+export const GET_PLANS_REQUEST = 'GET_PLANS_REQUEST'
+export const GET_PLANS_SUCCESS = 'GET_PLANS_SUCCESS'
+export const GET_PLANS_FAILURE = 'GET_PLANS_FAILURE'
+
+export const getPlans = () => ({
+  [RSAA]: {
+    endpoint: '/v1/plans',
+    method: 'GET',
+    headers,
+    types: [
+      GET_PLANS_REQUEST,
+      GET_PLANS_SUCCESS,
+      GET_PLANS_FAILURE
+    ]
+  }
+})
