@@ -1,35 +1,23 @@
-import { RSAA, getJSON } from 'redux-api-middleware'
-import history from "../utils/history"
-import { SUBSCRIPTION_ERROR } from '../data/constants'
+import { RSAA } from 'redux-api-middleware'
 
 const headers = () => ({
   Accept: 'application/json',
   'Content-Type': 'application/json'
 })
 
-export const SUBSCRIPTION_STATUS_REQUEST = 'SUBSCRIPTION_STATUS_REQUEST'
-export const SUBSCRIPTION_STATUS_SUCCESS = 'SUBSCRIPTION_STATUS_SUCCESS'
-export const SUBSCRIPTION_STATUS_FAILURE = 'SUBSCRIPTION_STATUS_FAILURE'
+export const GET_ACCOUNT_REQUEST = 'GET_ACCOUNT_REQUEST'
+export const GET_ACCOUNT_SUCCESS = 'GET_ACCOUNT_SUCCESS'
+export const GET_ACCOUNT_FAILURE = 'GET_ACCOUNT_FAILURE'
 
-export const checkSubscriptionStatus = () => ({
+export const getAccount = () => ({
   [RSAA]: {
     endpoint: '/v1/account',
     method: 'GET',
     headers,
     types: [
-      SUBSCRIPTION_STATUS_REQUEST,
-      SUBSCRIPTION_STATUS_SUCCESS,
-      SUBSCRIPTION_STATUS_FAILURE
-      // {
-      //   type: SUBSCRIPTION_STATUS_FAILURE,
-      //   payload: async (act, state, res) => {
-      //     const body = await getJSON(res)
-      //     if (body.error && body.error === SUBSCRIPTION_ERROR) {
-      //       history.push('/subscribe')
-      //     }
-      //     return body
-      //   }
-      // }
+      GET_ACCOUNT_REQUEST,
+      GET_ACCOUNT_SUCCESS,
+      GET_ACCOUNT_FAILURE
     ]
   }
 })

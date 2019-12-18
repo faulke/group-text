@@ -9,11 +9,11 @@ import Messages from '../views/Messages'
 import Loading from '../components/Loading'
 import SideBar from '../components/SideBar'
 
-const DefaultLayout = ({ active, loading, user }) => {
+const DefaultLayout = ({ account, loading, user }) => {
   if (loading) {
     return (
       <div>
-        <NavBar active={active} />
+        <NavBar />
         <Loading />
       </div>
     )
@@ -21,9 +21,9 @@ const DefaultLayout = ({ active, loading, user }) => {
 
   return (
     <Box fill>
-      <NavBar active={active} />
+      <NavBar />
       {
-        active && (
+        account && (
           <Box direction="row" fill>
             <SideBar user={user} />
             <Box flex pad="small" overflow="auto">

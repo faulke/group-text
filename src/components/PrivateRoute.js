@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, useHistory } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
-import { checkSubscriptionStatus } from '../actions'
-import { account } from '../selectors'
+import { getAccount } from '../actions'
+import { account as accountActions }  from '../selectors'
 
 const PrivateRoute = ({ component: Component, subscription = true, path, ...rest }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const { active, loading } = useSelector(account)
+  const { account, loading } = useSelector(accountActions)
 
   // check auth status
   useEffect(() => {
@@ -27,18 +27,18 @@ const PrivateRoute = ({ component: Component, subscription = true, path, ...rest
   useEffect(() => {
     const fn = () => {
       if (subscription) {
-        if (active === null) {
-          dispatch(checkSubscriptionStatus())
-        } else if (active === false) {
+        if (account === null) {
+          dispatch(getAccount())
+        } else if (!account.sub || account.sub.status_id !== 1) {
           history.push('/subscribe')
         }
       }
     }
     fn()
-  }, [active, subscription])
+  }, [account, subscription])
 
   const render = props =>
-    isAuthenticated === true ? <Component active={active} loading={loading} user={user} {...props} /> : null;
+    isAuthenticated === true ? <Component account={account} loading={loading} user={user} {...props} /> : null;
 
   return (
     <Route path={path} render={render} {...rest} />

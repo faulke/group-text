@@ -19,6 +19,7 @@ const copyActionTypes = (copiedTypes) => {
     if (res.status === 500) {
 
     }
+
     if (res.status === 404) {
 
     }

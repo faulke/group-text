@@ -1,7 +1,7 @@
 import * as actions from '../actions'
 
 export const initialState = {
-  active: null,
+  account: null,
   loading: false
 }
 
@@ -9,12 +9,12 @@ const account = (state = initialState, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case actions.SUBSCRIPTION_STATUS_REQUEST:
+    case actions.GET_ACCOUNT_REQUEST:
       return { ...state, loading: true}
-    case actions.SUBSCRIPTION_STATUS_SUCCESS:
-      return { ...state, loading: false, active: true }
-    case actions.SUBSCRIPTION_STATUS_FAILURE:
-      return { ...state, loading: false, active: false }
+    case actions.GET_ACCOUNT_SUCCESS:
+      return { ...state, loading: false, account: payload }
+    case actions.GET_ACCOUNT_FAILURE:
+      return { ...state, loading: false, account: null }
     default:
       return { ...state, loading: false }
   }
