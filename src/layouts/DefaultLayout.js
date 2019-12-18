@@ -26,7 +26,7 @@ const DefaultLayout = ({ active, loading, user }) => {
         active && (
           <Box direction="row" fill>
             <SideBar user={user} />
-            <Box flex className="scroll">
+            <Box flex pad="small" overflow="auto">
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/account" exact component={Profile} />
