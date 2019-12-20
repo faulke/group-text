@@ -8,6 +8,7 @@ import Profile from '../views/Profile'
 import Messages from '../views/Messages'
 import Loading from '../components/Loading'
 import SideBar from '../components/SideBar'
+import Groups from '../views/Groups'
 
 const DefaultLayout = ({ account, loading, user }) => {
   if (loading) {
@@ -31,6 +32,7 @@ const DefaultLayout = ({ account, loading, user }) => {
                 <Route path="/" exact component={Home} />
                 <Route path="/account" exact component={Profile} />
                 <Route path="/messages" exact component={Messages} />
+                <Route path="/groups" exact component={Groups} />
               </Switch>
             </Box>
           </Box>

@@ -14,7 +14,6 @@ const Home = () => {
     <div className="page-container">
       {
         account && (
-          
           <Box
             fill
             alignContent="center"
