@@ -55,3 +55,20 @@ export const getGroups = () => ({
     ]
   }
 })
+
+export const GET_GROUP_REQUEST = 'GET_GROUP_REQUEST'
+export const GET_GROUP_SUCCESS = 'GET_GROUP_SUCCESS'
+export const GET_GROUP_FAILURE = 'GET_GROUP_FAILURE'
+
+export const getGroupById = (id) => ({
+  [RSAA]: {
+    endpoint: `/v1/groups/${id}`,
+    method: 'GET',
+    headers,
+    types: [
+      GET_GROUP_REQUEST,
+      GET_GROUP_SUCCESS,
+      GET_GROUP_FAILURE
+    ]
+  }
+})
