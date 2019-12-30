@@ -9,6 +9,7 @@ import Messages from '../views/Messages'
 import Loading from '../components/Loading'
 import SideBar from '../components/SideBar'
 import Groups from '../views/Groups'
+import Group from '../views/Group'
 
 const DefaultLayout = ({ account, loading, user }) => {
   if (loading) {
@@ -33,6 +34,7 @@ const DefaultLayout = ({ account, loading, user }) => {
                 <Route path="/account" exact component={Profile} />
                 <Route path="/messages" exact component={Messages} />
                 <Route path="/groups" exact component={Groups} />
+                <Route path="/groups/:id" component={Group} />
               </Switch>
             </Box>
           </Box>
