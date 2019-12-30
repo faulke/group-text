@@ -50,7 +50,7 @@ const Subscribe = () => {
 
   if (loading) {
     return (
-      <div className="page-container">
+      <div className="page-container center">
         <Box fill direction="row" alignContent="center" justify="center">
           <Loading />
         </Box>
@@ -59,7 +59,7 @@ const Subscribe = () => {
   }
 
   return (
-    <div className="page-container">
+    <div className="page-container center">
       <Box direction="row-responsive">
         {
           plan && plans.map((option) => (
