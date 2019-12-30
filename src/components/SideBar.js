@@ -19,7 +19,8 @@ const SideBar = ({ user }) => {
     {
       label: 'Home',
       Icon: Home,
-      path: '/'
+      path: '/',
+      exact: true
     },
     {
       label: 'Groups',
@@ -52,13 +53,14 @@ const SideBar = ({ user }) => {
     >
       <Box flex overflow="auto">
         {
-          items.map(({ active, Icon, label, path }) => (
+          items.map(({ active, Icon, label, path, exact }) => (
             <MenuButton
               active={active}
               Icon={Icon}
               path={path}
               label={label}
               key={label}
+              exact={exact}
             />
           ))
         }

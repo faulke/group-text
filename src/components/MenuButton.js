@@ -7,12 +7,12 @@ import {
 } from 'grommet'
 import RoutedButton from './RoutedButton'
 
-const MenuButton = ({ active, Icon, label, path, ...rest }) => {
+const MenuButton = ({ active, Icon, label, path, exact = false, ...rest }) => {
   const router = useHistory()
 
   return (
     <RoutedButton
-      active={active || !!matchPath(router.location.pathname, { path, exact: true })}
+      active={active || !!matchPath(router.location.pathname, { path, exact })}
       hoverIndicator="dark-4"
       path={path}
       {...rest}

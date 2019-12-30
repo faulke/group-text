@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { matchPath, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Button } from 'grommet'
 
 const RoutedButton = ({ active, location, history, path, ...rest }) => {
