@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { apiMiddleware } from 'redux-api-middleware'
+import thunk from 'redux-thunk'
 import apiAuth from '../middleware/api'
 import rootReducer from '../reducers'
 
@@ -9,7 +10,7 @@ export default function configureStore(initialState) {
     rootReducer,
     initialState,
     composeEnhancers(
-      applyMiddleware(apiAuth, apiMiddleware)
+      applyMiddleware(thunk, apiAuth, apiMiddleware)
     )
   )
 }
