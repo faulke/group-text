@@ -17,7 +17,7 @@ const plans = (state = initialState, action) => {
     case actions.GET_ACCOUNT_FAILURE:
       return { ...state, loading: false, plans: [], error: true }
     default:
-      return { ...initialState }
+      return { ...state }
   }
 }
 

@@ -2,8 +2,7 @@ import * as actions from '../actions'
 
 export const initialState = {
   group: null,
-  loading: false,
-  error: false
+  loading: false
 }
 
 const group = (state = initialState, action) => {
@@ -17,7 +16,7 @@ const group = (state = initialState, action) => {
     case actions.GET_GROUP_FAILURE:
       return { ...state, error: true, loading: false, group: null }
     default:
-      return { ...initialState }
+      return { ...state }
   }
 }
 

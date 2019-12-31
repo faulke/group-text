@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { groups as groupsState } from '../selectors'
-import { getGroups } from '../actions'
+import { getGroups, addGroup } from '../actions'
 import {
   Box,
   Heading,
@@ -18,22 +18,18 @@ import {
   Trash
 } from 'grommet-icons'
 import Loading from '../components/Loading'
+import AddGroupModal from '../components/AddGroupModal'
 
 const Groups = () => {
   const dispatch = useDispatch()
-  const { groups, loading } = useSelector(groupsState)
+  const { groups, loading, saving } = useSelector(groupsState)
+  const [showAddGroup, setShowAddGroup] = useState(false)
 
   useEffect(() => {
     if (!groups) {
-      dispatch(getGroups)
+      dispatch(getGroups())
     }
   }, [JSON.stringify(groups)])
-
-  if (loading) {
-    return (
-      <Loading />
-    )
-  }
 
   return (
     <div className="page-container">
@@ -46,6 +42,8 @@ const Groups = () => {
             <Button
               primary
               label="+ Add group"
+              onClick={() => setShowAddGroup(true)}
+              disabled={saving}
             />
           </Box>
         </Box>
@@ -60,40 +58,54 @@ const Groups = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-            {
-              groups && groups.map((group) => (
-                <TableRow key={group.id}>
-                  <TableCell>
-                    <NavLink
-                      to={`/groups/${group.id}`}
-                    >{group.name}</NavLink>
-                  </TableCell>
-                  <TableCell>{group.description}</TableCell>
-                  <TableCell>{group.contacts || 0}</TableCell>
-                  <TableCell>
-                    <Box direction="row" justify="center">
-                      <Button
-                        plain
-                        a11yTitle="Edit group"
-                        icon={<Edit />}
-                        margin={{ horizontal: 'small' }}
-                      />
-                      <Button
-                        plain
-                        a11yTitle="Delete group"
-                        icon={<Trash />}
-                        margin={{ horizontal: 'small' }}
-                      />
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
+              {
+                groups && groups.map((group) => (
+                  <TableRow key={group.id}>
+                    <TableCell>
+                      <NavLink
+                        to={`/groups/${group.id}`}
+                      >{group.name}</NavLink>
+                    </TableCell>
+                    <TableCell size="medium">
+                      {group.description  || 'n/a' }
+                    </TableCell>
+                    <TableCell>
+                      {group.contacts || 0}
+                    </TableCell>
+                    <TableCell>
+                      <Box direction="row" justify="center" pad="small">
+                        <Button
+                          plain
+                          a11yTitle="Edit group"
+                          icon={<Edit />}
+                          margin={{ horizontal: 'small' }}
+                        />
+                        <Button
+                          plain
+                          a11yTitle="Delete group"
+                          icon={<Trash />}
+                          margin={{ horizontal: 'small' }}
+                        />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))
+              }
             </TableBody>
           </Table>
+            {
+              loading && (<Loading absolute={true} />)
+            } 
         </Box>
       </Box>
-
+      {
+        showAddGroup && (
+          <AddGroupModal
+            setShow={setShowAddGroup}
+            onSubmit={data => dispatch(addGroup(data))}
+          />
+        )
+      }
     </div>
   )
 }

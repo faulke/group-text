@@ -1,7 +1,18 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Box } from 'grommet'
+import {
+  Box,
+  Layer,
+  Text,
+  Button
+} from 'grommet'
+import {
+  Close
+} from 'grommet-icons'
+import { useSelector, useDispatch } from 'react-redux'
+import { notification as notificationState } from '../selectors'
+import { removeNotification, SUCCESS_TYPE, ERROR_TYPE } from '../actions'
 import NavBar from '../components/NavBar'
 import Home from '../views/Home'
 import Profile from '../views/Profile'
@@ -12,6 +23,20 @@ import Groups from '../views/Groups'
 import Group from '../views/Group'
 
 const DefaultLayout = ({ account, loading, user }) => {
+  const { notification } = useSelector(notificationState)
+  const dispatch = useDispatch()
+  const closeNotification = () => dispatch(removeNotification())
+  const getBackground = (type) => {
+    switch (type) {
+      case SUCCESS_TYPE:
+        return 'status-ok'
+      case ERROR_TYPE:
+        return 'status-error'
+      default:
+        return 'status-unknown'
+    }
+  }
+
   if (loading) {
     return (
       <div>
@@ -35,9 +60,34 @@ const DefaultLayout = ({ account, loading, user }) => {
                 <Route path="/messages" exact component={Messages} />
                 <Route path="/groups" exact component={Groups} />
                 <Route path="/groups/:id" component={Group} />
-              </Switch>
+              </Switch> 
             </Box>
           </Box>
+        )
+      }
+      {
+        notification && (
+          <Layer
+            position="top"
+            modal={false}
+            responsive={false}
+          >
+            <Box
+              direction="row"
+              background={getBackground(notification.type)}
+              align="center"
+              justify="center"
+              pad="small"
+            >
+              <Text>{notification.message}</Text>
+              <Button
+                plain
+                icon={<Close size="small" />}
+                margin={{ horizontal: 'small' }}
+                onClick={closeNotification}
+              />
+            </Box>
+          </Layer>
         )
       }
     </Box>

@@ -1,9 +1,31 @@
-import { RSAA } from 'redux-api-middleware'
+import { RSAA, getJSON } from 'redux-api-middleware'
 
 const headers = () => ({
   Accept: 'application/json',
   'Content-Type': 'application/json'
 })
+
+export const SUCCESS_TYPE = 'success'
+export const ERROR_TYPE = 'error'
+
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
+export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION'
+export const removeNotification = () => ({
+  type: REMOVE_NOTIFICATION
+})
+
+export const addNotification = (type, message) => dispatch => {
+  dispatch({
+    type: ADD_NOTIFICATION,
+    payload: {
+      type,
+      message
+    }
+  })
+  setTimeout(() => {
+    dispatch(removeNotification())
+  }, 3000)
+}
 
 export const GET_ACCOUNT_REQUEST = 'GET_ACCOUNT_REQUEST'
 export const GET_ACCOUNT_SUCCESS = 'GET_ACCOUNT_SUCCESS'
@@ -72,3 +94,41 @@ export const getGroupById = (id) => ({
     ]
   }
 })
+
+export const ADD_GROUP_REQUEST = 'ADD_GROUP_REQUEST'
+export const ADD_GROUP_SUCCESS = 'ADD_GROUP_SUCCESS'
+export const ADD_GROUP_FAILURE = 'ADD_GROUP_FAILURE'
+
+export const addGroup = ({ name, description }) => dispatch => {
+  return dispatch({
+    [RSAA]: {
+      endpoint: `/v1/groups`,
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        name,
+        description
+      }),
+      types: [
+        ADD_GROUP_REQUEST,
+        {
+          type: ADD_GROUP_SUCCESS,
+          payload: async (action, state, res) => {
+            const group = await getJSON(res)
+            dispatch(addNotification(SUCCESS_TYPE, 'Group added successfully.'))
+            return group
+          }
+        },
+        {
+          type: ADD_GROUP_FAILURE,
+          payload: () => {
+            dispatch(addNotification(ERROR_TYPE, 'Error adding group.'))
+          }
+        }
+      ]
+    }
+  })
+}
+
+
+
