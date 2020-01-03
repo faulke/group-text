@@ -102,7 +102,7 @@ export const ADD_GROUP_FAILURE = 'ADD_GROUP_FAILURE'
 export const addGroup = ({ name, description }) => dispatch => {
   return dispatch({
     [RSAA]: {
-      endpoint: `/v1/groups`,
+      endpoint: '/v1/groups',
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -130,5 +130,32 @@ export const addGroup = ({ name, description }) => dispatch => {
   })
 }
 
+export const DELETE_GROUP_REQUEST = 'DELETE_GROUP_REQUEST'
+export const DELETE_GROUP_SUCCESS = 'DELETE_GROUP_SUCCESS'
+export const DELETE_GROUP_FAILURE = 'DELETE_GROUP_FAILURE'
 
-
+export const deleteGroup = id => dispatch => {
+  return dispatch({
+    [RSAA]: {
+      endpoint: `/v1/groups/${id}`,
+      method: 'DELETE',
+      headers,
+      types: [
+        DELETE_GROUP_REQUEST,
+        {
+          type: DELETE_GROUP_SUCCESS,
+          payload: () => {
+            dispatch(addNotification(SUCCESS_TYPE, 'Group deleted.'))
+            return { id }
+          }
+        },
+        {
+          type: DELETE_GROUP_FAILURE,
+          payload: ()  => {
+            dispatch(addNotification(ERROR_TYPE, 'Error deleting group.'))
+          }
+        }
+      ]
+    }
+  })
+}

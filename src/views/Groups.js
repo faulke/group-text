@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { groups as groupsState } from '../selectors'
-import { getGroups, addGroup } from '../actions'
+import {
+  getGroups,
+  addGroup,
+  deleteGroup
+} from '../actions'
 import {
   Box,
   Heading,
@@ -19,11 +23,13 @@ import {
 } from 'grommet-icons'
 import Loading from '../components/Loading'
 import AddGroupModal from '../components/AddGroupModal'
+import DeleteGroupModal from '../components/DeleteGroupModal'
 
 const Groups = () => {
   const dispatch = useDispatch()
   const { groups, loading, saving } = useSelector(groupsState)
   const [showAddGroup, setShowAddGroup] = useState(false)
+  const [deletingGroup, setDeletingGroup] = useState()
 
   useEffect(() => {
     if (!groups) {
@@ -79,12 +85,15 @@ const Groups = () => {
                           a11yTitle="Edit group"
                           icon={<Edit />}
                           margin={{ horizontal: 'small' }}
+                          disabled={saving}
                         />
                         <Button
                           plain
                           a11yTitle="Delete group"
                           icon={<Trash />}
                           margin={{ horizontal: 'small' }}
+                          onClick={() => setDeletingGroup(group)}
+                          disabled={saving}
                         />
                       </Box>
                     </TableCell>
@@ -103,6 +112,15 @@ const Groups = () => {
           <AddGroupModal
             setShow={setShowAddGroup}
             onSubmit={data => dispatch(addGroup(data))}
+          />
+        )
+      }
+      {
+        deletingGroup && (
+          <DeleteGroupModal
+            setShow={setDeletingGroup}
+            group={deletingGroup}
+            onDelete={() => dispatch(deleteGroup(deletingGroup.id))}
           />
         )
       }

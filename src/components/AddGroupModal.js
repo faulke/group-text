@@ -32,15 +32,15 @@ const AddGroupModal = ({ setShow, onSubmit }) => {
       onClickOutside={() => setShow(false)}
     >
       <Box pad="medium" width={{ min: '400px' }}>
-        <Box direction="row" pad="small">
-          <Box flex="grow">
-            <Heading level={3}>Add Group</Heading>
-          </Box>
+        <Box direction="row" justify="end" alignContent="center">
           <Button
             plain
             icon={<Close />}
             onClick={() => setShow(false)}
           />
+        </Box>
+        <Box>
+          <Heading level={3}>Add Group</Heading>
         </Box>
         <Form
           value={values}
