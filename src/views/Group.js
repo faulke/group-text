@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Tabs,
@@ -18,20 +17,12 @@ import {
   Edit,
   Trash
 } from 'grommet-icons'
-import { getGroupById } from '../actions'
-import { group as groupState } from '../selectors'
+import { useGroup } from '../hooks/groups'
 import Loading from '../components/Loading'
 
 const Group = () => {
   const { id } = useParams()
-  const dispatch = useDispatch()
-  const { group, loading, error } = useSelector(groupState)
-
-  useEffect(() => {
-    if (id) {
-      dispatch(getGroupById(id))
-    }
-  }, [id])
+  const { group, loading, error } = useGroup(id)
 
   if (loading) {
     return (

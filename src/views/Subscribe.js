@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { getPlans } from '../actions'
-import { plans as planState } from '../selectors'
-import { useAuth0 } from "../react-auth0-spa";
+import React from 'react'
+import { usePlans } from '../hooks/plans'
 import {
   Box,
   Button,
@@ -14,39 +11,13 @@ import { StatusGood } from 'grommet-icons'
 import Loading from '../components/Loading'
 
 const Subscribe = () => {
-  const dispatch = useDispatch()
-  const { plans, loading } = useSelector(planState)
-  const { user, getTokenSilently } = useAuth0();
-  const stripe = Stripe('pk_test_V7E7AGZxoXcQpcqiPHUuCL5r000x7cVtUV') //eslint-disable-line
-
-  const [plan, setPlan] = useState()
-
-  // fetch plans
-  useEffect(() => {
-    if (!plans.length) {
-      dispatch(getPlans)
-    } else {
-      setPlan(plans[1])
-    }
-  }, [plans])
-
-
-
-  const handleClick = async () => {
-    const token = await getTokenSilently();
-    const res = await fetch('/v1/checkout/session', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: `{"planId": "${plan.stripe_id}", "email":"${user.email}"}`
-    })
-    const json = await res.json()
-    
-    await stripe.redirectToCheckout({
-      sessionId: json.id
-    })
-  }
+  const {
+    plans,
+    loading,
+    plan,
+    setPlan,
+    checkout
+  } = usePlans()
 
   if (loading) {
     return (
@@ -125,7 +96,7 @@ const Subscribe = () => {
               <Text size="large" weight="bold" textAlign="center">${plan.amount/100}</Text>
             </Box>
             <Box flex alignContent="center" justify="center" pad={{ vertical: 'medium' }}>
-              <Button alignSelf="center" primary label="Continue to payment" onClick={handleClick} />
+              <Button alignSelf="center" primary label="Continue to payment" onClick={checkout} />
             </Box>
           </Box>
         )

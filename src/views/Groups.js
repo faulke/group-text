@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { groups as groupsState } from '../selectors'
-import {
-  getGroups,
-  addGroup,
-  deleteGroup
-} from '../actions'
 import {
   Box,
   Heading,
@@ -24,18 +17,18 @@ import {
 import Loading from '../components/Loading'
 import AddGroupModal from '../components/AddGroupModal'
 import DeleteGroupModal from '../components/DeleteGroupModal'
+import { useGroups } from '../hooks/groups'
 
 const Groups = () => {
-  const dispatch = useDispatch()
-  const { groups, loading, saving } = useSelector(groupsState)
   const [showAddGroup, setShowAddGroup] = useState(false)
   const [deletingGroup, setDeletingGroup] = useState()
-
-  useEffect(() => {
-    if (!groups) {
-      dispatch(getGroups())
-    }
-  }, [JSON.stringify(groups)])
+  const {
+    groups,
+    loading,
+    saving,
+    addGroup,
+    deleteGroup
+  } = useGroups()
 
   return (
     <div className="page-container">
@@ -47,7 +40,7 @@ const Groups = () => {
           <Box>
             <Button
               primary
-              label="+ Add group"
+              label="+ New group"
               onClick={() => setShowAddGroup(true)}
               disabled={saving}
             />
@@ -111,7 +104,7 @@ const Groups = () => {
         showAddGroup && (
           <AddGroupModal
             setShow={setShowAddGroup}
-            onSubmit={data => dispatch(addGroup(data))}
+            onSubmit={data => addGroup(data)}
           />
         )
       }
@@ -120,7 +113,7 @@ const Groups = () => {
           <DeleteGroupModal
             setShow={setDeletingGroup}
             group={deletingGroup}
-            onDelete={() => dispatch(deleteGroup(deletingGroup.id))}
+            onDelete={() => deleteGroup(deletingGroup.id)}
           />
         )
       }

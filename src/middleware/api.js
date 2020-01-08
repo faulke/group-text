@@ -1,6 +1,5 @@
 import { isRSAA, RSAA, getJSON } from 'redux-api-middleware'
-import { getTokenSilently } from '../react-auth0-spa'
-import history from "../utils/history"
+import history from '../utils/history'
 import { SUBSCRIPTION_ERROR } from '../data/constants'
 
 // add auth meta handlers to rsaa actions
@@ -51,41 +50,41 @@ const copyActionTypes = (copiedTypes) => {
     payload: copiedTypes[2].payload || failurePayload // allow to be overwritten
   };
 
-  return [request, success, failure];
+  return [request, success, failure]
 };
 
 export default store => next => async action => {
   // check if it's a thunk
-  const actionTest = typeof action === 'function' ? action() : action;
+  const actionTest = typeof action === 'function' ? action() : action
 
   if (isRSAA(actionTest)) {
-    const actionCopy = { ...actionTest[RSAA] };
-    let headers;
+    const actionCopy = { ...actionTest[RSAA] }
+    // let headers;
 
-    if (actionCopy.headers) {
-      headers = actionCopy.headers();
-    }
+    // if (actionCopy.headers) {
+    //   headers = actionCopy.headers();
+    // }
 
-    const token = await getTokenSilently()
+    // const token = await getTokenSilently()
 
-    actionCopy.headers = () => {
-      if (token) {
-        return {
-          ...headers,
-          Authorization: `Bearer ${token}`
-        };
-      }
-      return { ...headers };
-    };
+    // actionCopy.headers = () => {
+    //   if (token) {
+    //     return {
+    //       ...headers,
+    //       Authorization: `Bearer ${token}`
+    //     };
+    //   }
+    //   return { ...headers };
+    // };
 
     // if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_API) {
     //   actionCopy.endpoint = process.env.REACT_APP_API + actionCopy.endpoint;
     // }
 
-    actionCopy.types = copyActionTypes(actionCopy.types);
+    actionCopy.types = copyActionTypes(actionCopy.types)
 
-    return next({ [RSAA]: actionCopy });
+    return next({ [RSAA]: actionCopy })
   }
 
-  return next(action);
+  return next(action)
 };
