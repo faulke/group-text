@@ -61,12 +61,12 @@ const Groups = () => {
                 groups && groups.map((group) => (
                   <TableRow key={group.id}>
                     <TableCell>
-                      <NavLink
-                        to={`/groups/${group.id}`}
-                      >{group.name}</NavLink>
+                      <NavLink to={`/groups/${group.id}`}>
+                        {group.name}
+                      </NavLink>
                     </TableCell>
                     <TableCell size="medium">
-                      {group.description  || 'n/a' }
+                      {group.description || 'n/a' }
                     </TableCell>
                     <TableCell>
                       {group.contacts || 0}
@@ -95,16 +95,16 @@ const Groups = () => {
               }
             </TableBody>
           </Table>
-            {
-              loading && (<Loading absolute={true} />)
-            } 
+          {
+            loading && (<Loading absolute />)
+          }
         </Box>
       </Box>
       {
         showAddGroup && (
           <AddGroupModal
             setShow={setShowAddGroup}
-            onSubmit={data => addGroup(data)}
+            onSubmit={(data) => addGroup(data)}
           />
         )
       }

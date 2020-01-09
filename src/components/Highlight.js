@@ -1,73 +1,33 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-import hljs from "highlight.js/lib/highlight";
-import "highlight.js/styles/monokai-sublime.css";
+import hljs from 'highlight.js/lib/highlight'
+import 'highlight.js/styles/monokai-sublime.css'
 
-const registeredLanguages = {};
+const Highlight = ({ children }) => {
+  const codeNode = React.createRef()
 
-class Highlight extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { loaded: false };
-    this.codeNode = React.createRef();
+  const highlight = () => {
+    codeNode &&
+      codeNode.current &&
+      hljs.highlightBlock(codeNode.current)
   }
 
-  componentDidMount() {
-    const { language } = this.props;
+  useEffect(() => {
+    highlight()
+  }, [])
 
-    if (language && !registeredLanguages[language]) {
-      try {
-        const newLanguage = require(`highlight.js/lib/languages/${language}`);
-        hljs.registerLanguage(language, newLanguage);
-        registeredLanguages[language] = true;
-
-        this.setState({ loaded: true }, this.highlight);
-      } catch (e) {
-        console.error(e);
-        throw Error(`Cannot register the language ${language}`);
-      }
-    } else {
-      this.setState({ loaded: true });
-    }
-  }
-
-  componentDidUpdate() {
-    this.highlight();
-  }
-
-  highlight = () => {
-    this.codeNode &&
-      this.codeNode.current &&
-      hljs.highlightBlock(this.codeNode.current);
-  };
-
-  render() {
-    const { language, children } = this.props;
-    const { loaded } = this.state;
-
-    if (!loaded) {
-      return null;
-    }
-
-    return (
-      <pre className="rounded">
-        <code ref={this.codeNode} className={language}>
-          {children}
-        </code>
-      </pre>
-    );
-  }
+  return (
+    <pre className="rounded">
+      <code ref={codeNode} className="json">
+        {children}
+      </code>
+    </pre>
+  )
 }
 
 Highlight.propTypes = {
-  children: PropTypes.node.isRequired,
-  language: PropTypes.string
-};
+  children: PropTypes.string.isRequired
+}
 
-Highlight.defaultProps = {
-  language: "json"
-};
-
-export default Highlight;
+export default Highlight

@@ -7,7 +7,7 @@ import {
 } from 'grommet'
 import RoutedButton from './RoutedButton'
 
-const MenuButton = ({ active, Icon, label, path, exact = false, ...rest }) => {
+const MenuButton = ({ active = false, Icon, label, path, exact = false, ...rest }) => {
   const router = useHistory()
 
   return (
@@ -30,6 +30,14 @@ const MenuButton = ({ active, Icon, label, path, exact = false, ...rest }) => {
       </Box>
     </RoutedButton>
   )
+}
+
+MenuButton.propTypes = {
+  active: PropTypes.bool,
+  Icon: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  exact: PropTypes.bool
 }
 
 export default MenuButton

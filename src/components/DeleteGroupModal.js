@@ -7,8 +7,9 @@ import {
   Paragraph
 } from 'grommet'
 import { Close } from 'grommet-icons'
+import PropTypes from 'prop-types'
 
-const DeleteGroupModal = ({ setShow, onDelete, group }) => {
+const DeleteGroupModal = ({ setShow, onDelete, group = {} }) => {
   const deleteGroup = () => {
     onDelete()
     setShow(null)
@@ -50,6 +51,12 @@ const DeleteGroupModal = ({ setShow, onDelete, group }) => {
       </Box>
     </Layer>
   )
+}
+
+DeleteGroupModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  group: PropTypes.object.isRequired
 }
 
 export default DeleteGroupModal

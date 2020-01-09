@@ -8,7 +8,7 @@ import { SUBSCRIPTION_ERROR } from '../data/constants'
 const copyActionTypes = (copiedTypes) => {
   const successMeta = (act, state, res) => {
 
-  };
+  }
 
   const failureMeta = async (act, state, res) => {
     if (res.status === 401) {
@@ -22,7 +22,7 @@ const copyActionTypes = (copiedTypes) => {
     if (res.status === 404) {
 
     }
-  };
+  }
 
   const failurePayload = async (act, state, res) => {
     const body = await getJSON(res)
@@ -34,24 +34,24 @@ const copyActionTypes = (copiedTypes) => {
     return body
   }
 
-  const request = copiedTypes[0];
+  const request = copiedTypes[0]
   const success = {
     type: copiedTypes[1].type || copiedTypes[1],
     meta: successMeta,
-  };
+  }
 
   if (copiedTypes[1].payload) {
-    success.payload = copiedTypes[1].payload;
+    success.payload = copiedTypes[1].payload
   }
 
   const failure = {
     type: copiedTypes[2].type || copiedTypes[2],
     meta: copiedTypes[2].meta || failureMeta,
     payload: copiedTypes[2].payload || failurePayload // allow to be overwritten
-  };
+  }
 
   return [request, success, failure]
-};
+}
 
 export default store => next => async action => {
   // check if it's a thunk
@@ -87,4 +87,4 @@ export default store => next => async action => {
   }
 
   return next(action)
-};
+}

@@ -1,6 +1,6 @@
-import React from "react";
-
-import { Box } from "grommet";
+import React from 'react'
+import { Box } from 'grommet'
+import PropTypes from 'prop-types'
 
 const Avatar = ({ name, url, ...rest }) => (
   <Box
@@ -12,5 +12,10 @@ const Avatar = ({ name, url, ...rest }) => (
     {...rest}
   />
 )
+
+Avatar.propTypes = {
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+}
 
 export default Avatar

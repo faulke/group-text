@@ -1,17 +1,16 @@
-import React from "react";
-
-import { Menu} from "grommet";
-
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Menu} from 'grommet'
 import Avatar from './Avatar'
-import { useAuth0 } from "../react-auth0-spa"
+import { useAuth0 } from '../react-auth0-spa'
 
 const UserMenu = ({ user = {}, ...rest }) => {
-  const { logout } = useAuth0();
+  const { logout } = useAuth0()
   const logoutWithRedirect = () => logout({ returnTo: `${window.location.origin}/login` })
 
   return (
     <Menu
-      dropAlign={{ bottom: "top" }}
+      dropAlign={{ bottom: 'top' }}
       icon={false}
       justifyContent="center"
       items={[
@@ -24,6 +23,10 @@ const UserMenu = ({ user = {}, ...rest }) => {
       {...rest}
     />
   )
+}
+
+UserMenu.propTypes = {
+  user: PropTypes.object.isRequired
 }
 
 export default UserMenu

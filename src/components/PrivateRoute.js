@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { Route } from "react-router-dom";
-import { useAuth0 } from "../react-auth0-spa";
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
+import { useAuth0 } from '../react-auth0-spa'
 import { useAccount } from '../hooks/account'
 
 const PrivateRoute = ({ component: Component, subscription = true, path, ...rest }) => {
@@ -14,19 +14,22 @@ const PrivateRoute = ({ component: Component, subscription = true, path, ...rest
       if (!isAuthenticated) {
         await loginWithRedirect({
           appState: { targetUrl: path }
-        });
+        })
       }
-    };
-    fn();
-  }, [isAuthenticated, loginWithRedirect, path]);
+    }
+    fn()
+  }, [isAuthenticated, loginWithRedirect, path])
 
-  const render = props =>
-    isAuthenticated === true ? <Component account={account} loading={loading} user={user} {...props} /> : null;
+  const render = (props) => {
+    return isAuthenticated === true
+      ? <Component account={account} loading={loading} user={user} {...props} />
+      : null
+  }
 
   return (
     <Route path={path} render={render} {...rest} />
   )
-};
+}
 
 PrivateRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
@@ -36,6 +39,6 @@ PrivateRoute.propTypes = {
     PropTypes.arrayOf(PropTypes.string)
   ]).isRequired,
   subscription: PropTypes.bool
-};
+}
 
-export default PrivateRoute;
+export default PrivateRoute

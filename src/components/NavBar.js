@@ -1,6 +1,5 @@
-import React from "react";
-import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
-
+import React from 'react'
+import { NavLink as RouterNavLink, useHistory } from 'react-router-dom'
 import {
   Button,
   Box,
@@ -8,19 +7,18 @@ import {
   Heading,
   Image,
   Menu
-} from 'grommet';
-import { Ad } from 'grommet-icons';
-
-import { useAuth0 } from "../react-auth0-spa";
+} from 'grommet'
+import { Ad } from 'grommet-icons'
+import { useAuth0 } from '../react-auth0-spa'
 
 const NavBar = () => {
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const history = useHistory();
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
+  const history = useHistory()
 
   const logoutWithRedirect = () =>
     logout({
       returnTo: `${window.location.origin}/login`
-    });
+    })
 
   return (
     <div className="nav-container">
@@ -88,7 +86,7 @@ const NavBar = () => {
         </Grid>
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

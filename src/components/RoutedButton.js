@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { Button } from 'grommet'
 
 const RoutedButton = ({ active, location, history, path, ...rest }) => {
-
   const handleClick = (event) => {
     event.preventDefault()
     history.push(path)

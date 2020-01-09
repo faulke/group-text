@@ -1,14 +1,14 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import React from 'react'
+import { Container, Row, Col } from 'reactstrap'
 
-import Highlight from "../components/Highlight";
-import { useAuth0 } from "../react-auth0-spa";
+import Highlight from '../components/Highlight'
+import { useAuth0 } from '../react-auth0-spa'
 
 const Profile = () => {
   const { user, loading } = useAuth0()
 
   if (loading || !user) {
-    return <div>user profile loading...</div>;
+    return <div>user profile loading...</div>
   }
 
   return (
@@ -30,7 +30,7 @@ const Profile = () => {
         <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

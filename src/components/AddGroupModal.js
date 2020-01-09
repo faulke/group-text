@@ -11,6 +11,7 @@ import {
 import {
   Close
 } from 'grommet-icons'
+import PropTypes from 'prop-types'
 
 const AddGroupModal = ({ setShow, onSubmit }) => {
   const [values] = useState({
@@ -68,6 +69,11 @@ const AddGroupModal = ({ setShow, onSubmit }) => {
       </Box>
     </Layer>
   )
+}
+
+AddGroupModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default AddGroupModal

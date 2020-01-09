@@ -22,7 +22,7 @@ import SideBar from '../components/SideBar'
 import Groups from '../views/Groups'
 import Group from '../views/Group'
 
-const DefaultLayout = ({ account, loading, user }) => {
+const DefaultLayout = ({ account = {}, user = {}, loading }) => {
   const { notification } = useSelector(notificationState)
   const dispatch = useDispatch()
   const closeNotification = () => dispatch(removeNotification())
@@ -95,7 +95,8 @@ const DefaultLayout = ({ account, loading, user }) => {
 }
 
 DefaultLayout.propTypes = {
-  active: PropTypes.bool,
+  account: PropTypes.object,
+  user: PropTypes.object,
   loading: PropTypes.bool
 }
 
