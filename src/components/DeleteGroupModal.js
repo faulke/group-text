@@ -17,8 +17,8 @@ const DeleteGroupModal = ({ setShow, onDelete, group = {} }) => {
 
   return (
     <Layer
+      modal
       plain={false}
-      modal={true}
       onEsc={() => setShow(null)}
       onClickOutside={() => setShow(null)}
     >
@@ -31,7 +31,9 @@ const DeleteGroupModal = ({ setShow, onDelete, group = {} }) => {
           />
         </Box>
         <Box>
-          <Heading level={3}>Delete {group.name}</Heading>
+          <Heading level={3}>
+            Delete {group.name}
+          </Heading>
         </Box>
         <Box>
           <Box pad={{ vertical: 'small' }}>
@@ -56,7 +58,11 @@ const DeleteGroupModal = ({ setShow, onDelete, group = {} }) => {
 DeleteGroupModal.propTypes = {
   setShow: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  group: PropTypes.object.isRequired
+  group: PropTypes.object
+}
+
+DeleteGroupModal.defaultProps = {
+  group: {}
 }
 
 export default DeleteGroupModal

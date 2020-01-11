@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   Box,
@@ -19,14 +19,17 @@ import {
 } from 'grommet-icons'
 import { useGroup } from '../hooks/groups'
 import Loading from '../components/Loading'
+import AddContactModal from '../components/AddContactModal'
+import ContactsTable from '../components/ContactsTable'
 
 const Group = () => {
   const { id } = useParams()
-  const { group, loading, error } = useGroup(id)
+  const { group, loading, error, addContactToGroup } = useGroup(id)
+  const [showAddContact, setShowAddContact] = useState(false)
 
   if (loading) {
     return (
-      <Loading />
+      <Loading absolute />
     )
   }
 
@@ -39,18 +42,20 @@ const Group = () => {
               <Box flex="grow">
                 <Heading flex level={2}>{group.name}</Heading>
               </Box>
-              <Button
-                plain
-                a11yTitle="Edit group"
-                icon={<Edit />}
-                margin={{ horizontal: 'small' }}
-              />
-              <Button
-                plain
-                a11yTitle="Delete group"
-                icon={<Trash />}
-                margin={{ horizontal: 'small' }}
-              />
+              <Box direction="row">
+                <Button
+                  plain
+                  a11yTitle="Edit group"
+                  icon={<Edit />}
+                  margin={{ horizontal: 'small' }}
+                />
+                <Button
+                  plain
+                  a11yTitle="Delete group"
+                  icon={<Trash />}
+                  margin={{ horizontal: 'small' }}
+                />
+              </Box>
             </Box>
             <Box justify="center">
               <Tabs>
@@ -71,9 +76,7 @@ const Group = () => {
                           <TableCell>Status</TableCell>
                         </TableRow>
                       </TableHeader>
-                      <TableBody>
-
-                      </TableBody>
+                      <TableBody />
                     </Table>
                   </Box>
                 </Tab>
@@ -83,67 +86,30 @@ const Group = () => {
                       <Button
                         primary
                         label="+ New contact"
+                        onClick={() => setShowAddContact(true)}
                       />
                     </Box>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableCell>Name</TableCell>
-                          <TableCell>Phone Number</TableCell>
-                          <TableCell>Status</TableCell>
-                          <TableCell />
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {
-                          group.contacts.map((contact) => (
-                            <TableRow key={contact.id}>
-                              <TableCell>{contact.name}</TableCell>
-                              <TableCell>{contact.phone_number}</TableCell>
-                              <TableCell>
-                                <Box
-                                  background="neutral-1"
-                                  direction="row"
-                                  align="center"
-                                  justify="center"
-                                  round="xsmall"
-                                  pad="xsmall"
-                                  gap="xsmall"
-                                  margin="xxsmall"
-                                  width="70px"
-                                >
-                                  <Text size="small">Active</Text>
-                                </Box>
-                              </TableCell>
-                              <TableCell>
-                                <Box direction="row" justify="center">
-                                  <Button
-                                    plain
-                                    a11yTitle="Edit contact"
-                                    icon={<Edit />}
-                                    margin={{ horizontal: 'small' }}
-                                  />
-                                  <Button
-                                    plain
-                                    a11yTitle="Delete contact"
-                                    icon={<Trash />}
-                                    margin={{ horizontal: 'small' }}
-                                  />
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        }
-                      </TableBody>
-                    </Table>
+                    <ContactsTable
+                      contacts={group.contacts}
+                      loading={loading}
+                      showGroups={false}
+                    />
                   </Box>
                 </Tab>
               </Tabs>
             </Box>
-          </Box> 
+          </Box>
         )
       }
-
+      {
+        showAddContact && (
+          <AddContactModal
+            setShow={setShowAddContact}
+            onSubmit={addContactToGroup}
+            group={group}
+          />
+        )
+      }
     </div>
   )
 }

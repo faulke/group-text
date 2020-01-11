@@ -15,7 +15,7 @@ export const removeNotification = () => ({
   type: REMOVE_NOTIFICATION
 })
 
-export const addNotification = (type, message) => dispatch => {
+export const addNotification = (type, message) => (dispatch) => {
   dispatch({
     type: ADD_NOTIFICATION,
     payload: {
@@ -100,7 +100,7 @@ export const ADD_GROUP_REQUEST = 'ADD_GROUP_REQUEST'
 export const ADD_GROUP_SUCCESS = 'ADD_GROUP_SUCCESS'
 export const ADD_GROUP_FAILURE = 'ADD_GROUP_FAILURE'
 
-export const addGroup = (token, { name, description }) => dispatch => {
+export const addGroup = (token, { name, description }) => (dispatch) => {
   return dispatch({
     [RSAA]: {
       endpoint: '/v1/groups',
@@ -140,7 +140,7 @@ export const DELETE_GROUP_REQUEST = 'DELETE_GROUP_REQUEST'
 export const DELETE_GROUP_SUCCESS = 'DELETE_GROUP_SUCCESS'
 export const DELETE_GROUP_FAILURE = 'DELETE_GROUP_FAILURE'
 
-export const deleteGroup = (token, id) => dispatch => {
+export const deleteGroup = (token, id) => (dispatch) => {
   return dispatch({
     [RSAA]: {
       endpoint: `/v1/groups/${id}`,
@@ -157,7 +157,7 @@ export const deleteGroup = (token, id) => dispatch => {
         },
         {
           type: DELETE_GROUP_FAILURE,
-          payload: ()  => {
+          payload: () => {
             dispatch(addNotification(ERROR_TYPE, 'Error deleting group.'))
           }
         }
@@ -165,3 +165,109 @@ export const deleteGroup = (token, id) => dispatch => {
     }
   })
 }
+
+export const CONTACT_GROUPS_UPDATED = 'CONTACT_GROUPS_UPDATED'
+
+export const contactGroupsUpdated = (groups, contact) => ({
+  type: CONTACT_GROUPS_UPDATED,
+  payload: { groups, contact }
+})
+
+export const UPDATE_CONTACT_GROUPS_REQUEST = 'UPDATE_CONTACT_GROUPS_REQUEST'
+export const UPDATE_CONTACT_GROUPS_SUCCESS = 'UPDATE_CONTACT_GROUPS_SUCCESS'
+export const UPDATE_CONTACT_GROUPS_FAILURE = 'UPDATE_CONTACT_GROUPS_FAILURE'
+
+export const updateContactGroups = (token, contact, groups = [], notify) => (dispatch) => {
+  return dispatch({
+    [RSAA]: {
+      endpoint: `/v1/contacts/${contact.id}/groups`,
+      method: 'PUT',
+      headers: headers(token),
+      body: JSON.stringify({
+        group_ids: groups
+      }),
+      types: [
+        UPDATE_CONTACT_GROUPS_REQUEST,
+        {
+          type: UPDATE_CONTACT_GROUPS_SUCCESS,
+          payload: async (action, state, res) => {
+            const newGroups = await getJSON(res)
+            const message = notify || 'Contact groups updated.'
+
+            dispatch(contactGroupsUpdated(groups, contact))
+            dispatch(addNotification(SUCCESS_TYPE, message))
+
+            return newGroups
+          }
+        },
+        {
+          type: UPDATE_CONTACT_GROUPS_FAILURE,
+          payload: () => {
+            dispatch(addNotification(ERROR_TYPE, 'Error updating contact groups.'))
+          }
+        }
+      ]
+    }
+  })
+}
+
+export const ADD_CONTACT_REQUEST = 'ADD_CONTACT_REQUEST'
+export const ADD_CONTACT_SUCCESS = 'ADD_CONTACT_SUCCESS'
+export const ADD_CONTACT_FAILURE = 'ADD_CONTACT_FAILURE'
+
+export const addContact = (token, { name, phone_number, groups }) => (dispatch) => {
+  const formatted = `+1${phone_number.replace(/\D/g, '')}`
+  const groupIds = groups.map(x => x.value)
+
+  return dispatch({
+    [RSAA]: {
+      endpoint: '/v1/contacts',
+      method: 'POST',
+      headers: headers(token),
+      body: JSON.stringify({
+        name,
+        number: {
+          phone_number: formatted,
+          friendly_name: phone_number
+        }
+      }),
+      types: [
+        ADD_CONTACT_REQUEST,
+        {
+          type: ADD_CONTACT_SUCCESS,
+          payload: async (action, state, res) => {
+            const contact = await getJSON(res)
+            dispatch(updateContactGroups(token, contact, groupIds, 'Contact added.'))
+
+            // optimistic ui before contact groups applied
+            contact.numGroups = groupIds.length
+            return contact
+          }
+        },
+        {
+          type: ADD_CONTACT_FAILURE,
+          payload: () => {
+            dispatch(addNotification(ERROR_TYPE, 'Error adding contact.'))
+          }
+        }
+      ]
+    }
+  })
+}
+
+export const GET_CONTACTS_REQUEST = 'GET_CONTACTS_REQUEST'
+export const GET_CONTACTS_SUCCESS = 'GET_CONTACTS_SUCCESS'
+export const GET_CONTACTS_FAILURE = 'GET_CONTACTS_FAILURE'
+
+export const getContacts = (token) => ({
+  [RSAA]: {
+    endpoint: '/v1/contacts',
+    method: 'GET',
+    headers: headers(token),
+    types: [
+      GET_CONTACTS_REQUEST,
+      GET_CONTACTS_SUCCESS,
+      GET_CONTACTS_FAILURE
+    ]
+  }
+})

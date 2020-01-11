@@ -27,8 +27,8 @@ const AddGroupModal = ({ setShow, onSubmit }) => {
 
   return (
     <Layer
+      modal
       plain={false}
-      modal={true}
       onEsc={() => setShow(false)}
       onClickOutside={() => setShow(false)}
     >

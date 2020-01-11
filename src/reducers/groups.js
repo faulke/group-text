@@ -1,7 +1,7 @@
 import * as actions from '../actions'
 
 export const initialState = {
-  groups: null,
+  groups: [],
   loading: false,
   saving: false,
   error: false
@@ -20,7 +20,7 @@ const groups = (state = initialState, action) => {
     case actions.ADD_GROUP_REQUEST:
       return { ...state, saving: true }
     case actions.ADD_GROUP_SUCCESS:
-      return { ...state, saving: false, groups: [ payload, ...state.groups ] }
+      return { ...state, saving: false, groups: [payload, ...state.groups] }
     case actions.DELETE_GROUP_REQUEST:
       return { ...state, saving: true }
     case actions.DELETE_GROUP_SUCCESS:

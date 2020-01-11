@@ -18,6 +18,32 @@ const group = (state = initialState, action) => {
       return { ...state, error: true, loading: false, group: null }
     case actions.RESET_GROUP:
       return { ...initialState }
+    case actions.CONTACT_GROUPS_UPDATED:
+      const { groups, contact } = payload
+      if (state.group) {
+        if (groups.includes(state.group.id)) {
+          return {
+            ...state,
+            group: {
+              ...state.group,
+              contacts: [
+                contact,
+                ...state.group.contacts
+              ]
+            }
+          }
+        }
+
+        const { contacts } = state.group
+        return {
+          ...state,
+          group: {
+            ...state.group,
+            contacts: contacts.filter(x => x.id !== contact.id)
+          }
+        }
+      }
+      return { ...state }
     default:
       return { ...state }
   }

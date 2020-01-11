@@ -20,6 +20,21 @@ const onRedirectCallback = appState => {
 
 const store = configureStore({})
 
+const theme = {
+  maskedInput: {
+    extend: {
+      border: 'none'
+    }
+  },
+  textInput: {
+    suggestions: {
+      extend: {
+        padding: '5px'
+      }
+    }
+  }
+}
+
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
@@ -28,7 +43,7 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
-    <Grommet plain full className="no-scroll">
+    <Grommet theme={theme} full className="no-scroll">
       <Provider store={store}>
         <App /> 
       </Provider>

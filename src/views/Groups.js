@@ -1,20 +1,10 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
 import {
   Box,
   Heading,
-  Button,
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody
+  Button
 } from 'grommet'
-import {
-  Edit,
-  Trash
-} from 'grommet-icons'
-import Loading from '../components/Loading'
+import GroupsTable from '../components/GroupsTable'
 import AddGroupModal from '../components/AddGroupModal'
 import DeleteGroupModal from '../components/DeleteGroupModal'
 import { useGroups } from '../hooks/groups'
@@ -46,59 +36,12 @@ const Groups = () => {
             />
           </Box>
         </Box>
-        <Box>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Contacts</TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {
-                groups && groups.map((group) => (
-                  <TableRow key={group.id}>
-                    <TableCell>
-                      <NavLink to={`/groups/${group.id}`}>
-                        {group.name}
-                      </NavLink>
-                    </TableCell>
-                    <TableCell size="medium">
-                      {group.description || 'n/a' }
-                    </TableCell>
-                    <TableCell>
-                      {group.contacts || 0}
-                    </TableCell>
-                    <TableCell>
-                      <Box direction="row" justify="center" pad="small">
-                        <Button
-                          plain
-                          a11yTitle="Edit group"
-                          icon={<Edit />}
-                          margin={{ horizontal: 'small' }}
-                          disabled={saving}
-                        />
-                        <Button
-                          plain
-                          a11yTitle="Delete group"
-                          icon={<Trash />}
-                          margin={{ horizontal: 'small' }}
-                          onClick={() => setDeletingGroup(group)}
-                          disabled={saving}
-                        />
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))
-              }
-            </TableBody>
-          </Table>
-          {
-            loading && (<Loading absolute />)
-          }
-        </Box>
+        <GroupsTable
+          groups={groups}
+          loading={loading}
+          saving={saving}
+          deletingGroup={setDeletingGroup}
+        />
       </Box>
       {
         showAddGroup && (

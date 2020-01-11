@@ -9,7 +9,8 @@ import {
   SettingsOption,
   Group,
   Tree,
-  Schedules
+  Schedules,
+  ContactInfo
 } from 'grommet-icons'
 import MenuButton from './MenuButton'
 import UserMenu from './UserMenu'
@@ -26,6 +27,11 @@ const SideBar = ({ user }) => {
       label: 'Groups',
       Icon: Group,
       path: '/groups'
+    },
+    {
+      label: 'Contacts',
+      Icon: ContactInfo,
+      path: '/contacts'
     },
     {
       label: 'Phone Trees',

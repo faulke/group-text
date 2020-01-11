@@ -16,7 +16,7 @@ const App = () => {
   const { loading } = useAuth0()
 
   if (loading) {
-    return <Loading absolute={true} />
+    return <Loading absolute />
   }
 
   return (

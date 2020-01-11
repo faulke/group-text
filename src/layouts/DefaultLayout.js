@@ -21,6 +21,8 @@ import Loading from '../components/Loading'
 import SideBar from '../components/SideBar'
 import Groups from '../views/Groups'
 import Group from '../views/Group'
+import Contacts from '../views/Contacts'
+import Beta from '../views/Beta'
 
 const DefaultLayout = ({ account = {}, user = {}, loading }) => {
   const { notification } = useSelector(notificationState)
@@ -60,7 +62,9 @@ const DefaultLayout = ({ account = {}, user = {}, loading }) => {
                 <Route path="/messages" exact component={Messages} />
                 <Route path="/groups" exact component={Groups} />
                 <Route path="/groups/:id" component={Group} />
-              </Switch> 
+                <Route path="/contacts" component={Contacts} />
+                <Route path="/beta" component={Beta} />
+              </Switch>
             </Box>
           </Box>
         )
@@ -98,6 +102,12 @@ DefaultLayout.propTypes = {
   account: PropTypes.object,
   user: PropTypes.object,
   loading: PropTypes.bool
+}
+
+DefaultLayout.defaultProps = {
+  account: {},
+  user: {},
+  loading: false
 }
 
 export default DefaultLayout

@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { groups as groupsState} from '../selectors'
-import { group as groupState } from '../selectors'
+import {
+  groups as groupsState,
+  group as groupState
+} from '../selectors'
 import { useAuth0 } from '../react-auth0-spa'
 import {
   getGroups,
   getGroupById,
   resetGroup,
   addGroup,
-  deleteGroup
+  deleteGroup,
+  addContact
 } from '../actions'
 
 export const useGroups = () => {
@@ -23,7 +26,7 @@ export const useGroups = () => {
     }
     fetchGroups()
   }, [])
-  
+
   return {
     groups,
     loading,
@@ -34,7 +37,7 @@ export const useGroups = () => {
     },
     deleteGroup: async (id) => {
       const token = await getTokenSilently()
-      dispatch(deleteGroup(token, id)) 
+      dispatch(deleteGroup(token, id))
     }
   }
 }
@@ -61,7 +64,10 @@ export const useGroup = (id) => {
   return {
     group,
     loading,
-    error
+    error,
+    addContactToGroup: async (contact) => {
+      const token = await getTokenSilently()
+      dispatch(addContact(token, contact))
+    }
   }
 }
-

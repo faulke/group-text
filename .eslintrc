@@ -10,6 +10,7 @@
     }
   },
   "extends": [
+    "airbnb",
     "plugin:react/recommended"
   ],
   "plugins": ["react", "jsx-a11y", "import"],
@@ -25,7 +26,15 @@
     "comma-dangle": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "object-curly-newline": "off",
+    "no-case-declarations": "off",
+    "camelcase": "off",
+    "arrow-body-style": "off",
+    "arrow-parens": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/forbid-prop-types": "off",
+    "no-else-return": [1, { "allowElseIf": true }]
   },
   "settings": {
     "react": {
