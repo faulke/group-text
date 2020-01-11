@@ -1,11 +1,11 @@
 {
-  "name": "auth0-react-01-login",
+  "name": "group-text",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",
@@ -34,12 +34,16 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-react": "^1.1.7",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0"
+    "eslint-plugin-react": "^7.17.0",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,5 +59,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["jest-enzyme"],
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    }
   }
 }
