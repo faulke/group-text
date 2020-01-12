@@ -28,7 +28,7 @@ REACT_APP_AUTH0_AUDIENCE={your Auth0 API audience/identifier}
 ### Compiles and hot-reloads for development
 
 ```bash
-npm run start
+npm start
 ```
 
 ## Deployment
