@@ -1,6 +1,6 @@
 # SMS Notifier for Groups
 
-https://github.com/faulke/group-text/workflows/Node%20CI/badge.svg
+![](https://github.com/faulke/group-text/workflows/Node%20CI/badge.svg)
 
 ## Project setup
 
