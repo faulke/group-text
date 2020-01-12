@@ -1,5 +1,7 @@
 # SMS Notifier for Groups
 
+https://github.com/faulke/group-text/workflows/Node%20CI/badge.svg
+
 ## Project setup
 
 Use `npm` to install the project dependencies:
