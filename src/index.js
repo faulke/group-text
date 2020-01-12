@@ -6,7 +6,6 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { Auth0Provider } from './react-auth0-spa'
-import config from './auth_config.json'
 import history from './utils/history'
 import configureStore from './store/configureStore'
 
@@ -37,15 +36,15 @@ const theme = {
 
 ReactDOM.render(
   <Auth0Provider
-    domain={config.domain}
-    client_id={config.clientId}
-    audience={config.audience}
+    domain={process.env.REACT_APP_AUTH0_DOMAIN}
+    client_id={process.env.REACT_APP_AUTH0_CLIENT_ID}
+    audience={process.env.REACT_APP_AUTH0_AUDIENCE}
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
     <Grommet theme={theme} full className="no-scroll">
       <Provider store={store}>
-        <App /> 
+        <App />
       </Provider>
     </Grommet>
   </Auth0Provider>,

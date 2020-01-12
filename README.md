@@ -12,16 +12,17 @@ npm install
 
 ### Configuration
 
-The project needs to be configured with your Auth0 domain, client ID, and API identifier in order for the authentication flow to work.
+This project requires an Auth0 client app and API for the authentication flow,
+and a Stripe account for subscriptions.
 
-To do this, first copy `src/auth_config.example.json` into a new file in the same folder called `src/auth_config.json`, and replace the values with your own Auth0 application credentials:
+Create a `.env` file at the project root with:
 
-```json
-{
-  "domain": "{YOUR AUTH0 DOMAIN}",
-  "clientId": "{YOUR AUTH0 CLIENT ID}",
-  "audience": "{YOUR AUTH0 API ISSUER/IDENTIFIER}"
-}
+```bash
+REACT_APP_STRIPE_KEY={your Stripe test key}
+REACT_APP_AUTH0_DOMAIN={your Auth0 client app domain}
+REACT_APP_AUTH0_CLIENT_ID={your Auth0 client app ID}
+REACT_APP_AUTH0_AUDIENCE={your Auth0 API audience/identifier}
+
 ```
 
 ### Compiles and hot-reloads for development
