@@ -15,10 +15,9 @@ const NavBar = () => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
   const history = useHistory()
 
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: `${window.location.origin}/login`
-    })
+  const logoutWithRedirect = () => {
+    logout({ returnTo: `${window.location.origin}/login` })
+  }
 
   return (
     <div className="nav-container">
@@ -40,7 +39,7 @@ const NavBar = () => {
               justify="center"
             >
               <Ad size="large" />
-              <Heading level="4">Co App</Heading>
+              <Heading level="4">Notify Hub</Heading>
             </Box>
           </RouterNavLink>
           <Box />
@@ -59,7 +58,7 @@ const NavBar = () => {
             {isAuthenticated && (
               <Menu
                 dropAlign={{ top: 'bottom', right: 'right' }}
-                label={
+                label={(
                   <Box
                     height="xxsmall"
                     width="xxsmall"
@@ -69,7 +68,7 @@ const NavBar = () => {
                       fit="cover"
                     />
                   </Box>
-                }
+                )}
                 items={[
                   {
                     label: 'Account',
