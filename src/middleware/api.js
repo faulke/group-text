@@ -51,27 +51,10 @@ export default store => next => async action => {
 
   if (isRSAA(actionTest)) {
     const actionCopy = { ...actionTest[RSAA] }
-    // let headers;
 
-    // if (actionCopy.headers) {
-    //   headers = actionCopy.headers();
-    // }
-
-    // const token = await getTokenSilently()
-
-    // actionCopy.headers = () => {
-    //   if (token) {
-    //     return {
-    //       ...headers,
-    //       Authorization: `Bearer ${token}`
-    //     };
-    //   }
-    //   return { ...headers };
-    // };
-
-    // if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_API) {
-    //   actionCopy.endpoint = process.env.REACT_APP_API + actionCopy.endpoint;
-    // }
+    if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_API_HOST) {
+      actionCopy.endpoint = process.env.REACT_APP_API_HOST + actionCopy.endpoint
+    }
 
     actionCopy.types = copyActionTypes(actionCopy.types)
 
