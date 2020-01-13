@@ -1,6 +1,6 @@
 import { isRSAA, RSAA, getJSON } from 'redux-api-middleware'
 import history from '../utils/history'
-import { SUBSCRIPTION_ERROR } from '../data/constants'
+import { SUBSCRIPTION_ERROR, ACCOUNT_ERROR } from '../data/constants'
 
 // add auth meta handlers to rsaa actions
 // handle failure payload
@@ -11,23 +11,15 @@ const copyActionTypes = (copiedTypes) => {
   }
 
   const failureMeta = async (act, state, res) => {
-    if (res.status === 401) {
 
-    }
-
-    if (res.status === 500) {
-
-    }
-
-    if (res.status === 404) {
-
-    }
   }
 
   const failurePayload = async (act, state, res) => {
     const body = await getJSON(res)
-    if (res.status === 401) {
-      if (body.error && body.error === SUBSCRIPTION_ERROR) {
+    if (res.status === 401 && body.error) {
+      if (body.error === ACCOUNT_ERROR) {
+        history.push('/signup')
+      } else if (body.error === SUBSCRIPTION_ERROR) {
         history.push('/subscribe')
       }
     }

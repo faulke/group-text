@@ -13,9 +13,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: run setup script
-      run: |
-        sh ./setup.sh
     - name: npm install, build, and test
       run: |
         npm ci

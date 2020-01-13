@@ -101,14 +101,13 @@ const Table = ({
     return elem
   }
 
+
   useEffect(() => {
     const setData = () => {
-      if (data.length !== tableData.length) {
-        setTableData(data)
-      }
+      setTableData(data)
     }
     setData()
-  }, [data, sort])
+  }, [JSON.stringify(data), sort])
 
   return (
     <Box fill>

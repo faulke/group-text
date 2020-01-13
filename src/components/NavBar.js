@@ -9,9 +9,10 @@ import {
   Menu
 } from 'grommet'
 import { Ad } from 'grommet-icons'
+import PropTypes from 'prop-types'
 import { useAuth0 } from '../react-auth0-spa'
 
-const NavBar = () => {
+const NavBar = ({ showAccount = true }) => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
   const history = useHistory()
 
@@ -69,11 +70,16 @@ const NavBar = () => {
                     />
                   </Box>
                 )}
-                items={[
+                items={showAccount ? [
                   {
                     label: 'Account',
                     onClick: () => history.push('/account')
                   },
+                  {
+                    label: 'Log Out',
+                    onClick: () => logoutWithRedirect()
+                  }
+                ] : [
                   {
                     label: 'Log Out',
                     onClick: () => logoutWithRedirect()
@@ -86,6 +92,14 @@ const NavBar = () => {
       </Box>
     </div>
   )
+}
+
+NavBar.propTypes = {
+  showAccount: PropTypes.bool
+}
+
+NavBar.defaultProps = {
+  showAccount: true
 }
 
 export default NavBar

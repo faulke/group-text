@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Loading from './components/Loading'
 import LoginLayout from './layouts/LoginLayout'
 import SubscribeLayout from './layouts/SubscribeLayout'
+import SignupLayout from './layouts/SignupLayout'
 import DefaultLayout from './layouts/DefaultLayout'
 import { useAuth0 } from './react-auth0-spa'
 import history from './utils/history'
@@ -24,6 +25,7 @@ const App = () => {
       <Switch>
         <Route path="/login" exact component={LoginLayout} />
         <PrivateRoute path="/subscribe" exact subscription={false} component={SubscribeLayout} />
+        <PrivateRoute path="/signup" exact subscription={false} component={SignupLayout} />
         <PrivateRoute path="/" component={DefaultLayout} />
       </Switch>
     </Router>

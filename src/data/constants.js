@@ -1,5 +1,6 @@
 // api errors
 export const SUBSCRIPTION_ERROR = 'subscriptionError'
+export const ACCOUNT_ERROR = 'noAccountError'
 
 // statuses
 export const CONTACT_ACTIVE = 1

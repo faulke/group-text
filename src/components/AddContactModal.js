@@ -80,7 +80,7 @@ const AddContactModal = ({ setShow, onSubmit, group, groups = [] }) => {
             name="phone_number"
             component={PhoneInput}
             onChange={handleChange}
-            value={values.name}
+            value={values.phone_number}
             validate={{
               regexp: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/,
               message: 'Invalid phone number.'

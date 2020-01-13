@@ -19,7 +19,7 @@ const GroupsTable = ({
   deletingGroup
 }) => (
   <Table data={groups} loading={loading}>
-    <TableColumn name="name" label="name">
+    <TableColumn name="name" label="Name">
       {
         ({ id, name }) => (
           <NavLink to={`/groups/${id}`}>
@@ -28,12 +28,16 @@ const GroupsTable = ({
         )
       }
     </TableColumn>
-    <TableColumn name="description" label="description">
+    <TableColumn name="description" label="Description">
       {
         ({ description }) => (description || 'n/a')
       }
     </TableColumn>
-    <TableColumn name="numContacts" label="Contacts" />
+    <TableColumn name="numContacts" label="Contacts">
+      {
+        ({ numContacts }) => numContacts || 0
+      }
+    </TableColumn>
     <TableColumn name="actions">
       {
         (group) => (

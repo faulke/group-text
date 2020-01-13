@@ -1,1 +1,0 @@
-cp ./src/auth_config.example.json ./src/auth_config.json

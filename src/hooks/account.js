@@ -4,14 +4,15 @@ import { useHistory } from 'react-router-dom'
 import { useAuth0 } from '../react-auth0-spa'
 import { account as accountState } from '../selectors'
 import {
-  getAccount
+  getAccount,
+  signUp
 } from '../actions'
 
 export const useAccount = (subscription = true) => {
   const { getTokenSilently } = useAuth0()
   const dispatch = useDispatch()
   const history = useHistory()
-  const { account, loading } = useSelector(accountState) 
+  const { account, loading } = useSelector(accountState)
 
   useEffect(() => {
     const fetchAccount = async () => {
@@ -30,5 +31,17 @@ export const useAccount = (subscription = true) => {
   return {
     account,
     loading
+  }
+}
+
+export const useSignup = () => {
+  const { getTokenSilently } = useAuth0()
+  const dispatch = useDispatch()
+
+  return {
+    signUp: async ({ name, number }) => {
+      const token = await getTokenSilently()
+      dispatch(signUp(token, name, number))
+    }
   }
 }

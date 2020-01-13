@@ -1,4 +1,6 @@
 import { RSAA, getJSON } from 'redux-api-middleware'
+import history from '../utils/history'
+import { getTokenSilently } from '../react-auth0-spa'
 
 const headers = (token) => ({
   Accept: 'application/json',
@@ -271,3 +273,37 @@ export const getContacts = (token) => ({
     ]
   }
 })
+
+export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE'
+
+export const signUp = (token, name, number) => (dispatch) => {
+  return dispatch({
+    [RSAA]: {
+      endpoint: '/v1/account',
+      method: 'POST',
+      headers: headers(token),
+      body: JSON.stringify({
+        name,
+        zip_code: number
+      }),
+      types: [
+        SIGNUP_REQUEST,
+        {
+          type: SIGNUP_SUCCESS,
+          payload: async () => {
+            await getTokenSilently()
+            history.replace('/subscribe')
+          }
+        },
+        {
+          type: SIGNUP_FAILURE,
+          payload: () => {
+            dispatch(addNotification(ERROR_TYPE, 'Error during sign up.'))
+          }
+        }
+      ]
+    }
+  })
+}
