@@ -6,8 +6,7 @@ import {
   TableCell,
   TableBody,
   Button,
-  Box,
-  Text
+  Box
 } from 'grommet'
 import {
   CaretUp,
@@ -15,6 +14,7 @@ import {
 } from 'grommet-icons'
 import PropTypes from 'prop-types'
 import Loading from '../../Loading'
+import TableColumn from './TableColumn'
 
 const Table = ({
   data = [],
@@ -22,7 +22,7 @@ const Table = ({
   children
 }) => {
   const cols = children
-    .filter(x => x && x.type.name === 'TableColumn')
+    .filter(x => x && x.type.name === TableColumn.name)
     .map((col) => {
       return {
         ...col,
