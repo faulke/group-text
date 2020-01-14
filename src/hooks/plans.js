@@ -31,7 +31,7 @@ export const usePlans = () => {
     setPlan,
     checkout: async () => {
       const token = await getTokenSilently()
-      const res = await fetch('/v1/checkout/session', {
+      const res = await fetch(`${process.env.REACT_APP_API_HOST}/v1/checkout/session`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
