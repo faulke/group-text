@@ -239,10 +239,13 @@ export const addContact = (token, { name, phone_number, groups }) => (dispatch) 
           type: ADD_CONTACT_SUCCESS,
           payload: async (action, state, res) => {
             const contact = await getJSON(res)
-            dispatch(updateContactGroups(token, contact, groupIds, 'Contact added.'))
 
-            // optimistic ui before contact groups applied
-            contact.numGroups = groupIds.length
+            if (groupIds.length) {
+              dispatch(updateContactGroups(token, contact, groupIds, 'Contact added.'))
+              // optimistic ui before contact groups applied
+              contact.numGroups = groupIds.length
+            }
+
             return contact
           }
         },
