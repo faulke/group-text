@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, TextInput } from 'grommet'
 import PropTypes from 'prop-types'
 import Tag from './Tag'
+import { useSuggestions } from '../hooks/select'
 
 const TagSelect = ({
-  suggestions = [],
+  options = [],
   value = [],
   placeholder = 'Select tags',
   searchKey = 'name',
-  onChange,
-  onRemove
+  onChange
 }) => {
-  const [search, setSearch] = useState('')
+  const {
+    suggestions,
+    search,
+    setSearch,
+    onRemove
+  } = useSuggestions(options, value, searchKey)
 
-  const renderTags = (tags, onRemove) => (
-    <Box align="center" direction="row" wrap={true} pad={{ left: 'xsmall' }}>
+  const renderTags = (tags) => (
+    <Box align="center" direction="row" wrap pad={{ left: 'xsmall' }}>
       {tags.map((tag, index) => (
-        <Tag key={index} onRemove={() => onRemove(index)}>
+        <Tag key={`tag-${tag.id}`} onRemove={() => onRemove(onChange, index)}>
           {tag.label}
         </Tag>
       ))}
@@ -25,18 +30,18 @@ const TagSelect = ({
 
   return (
     <Box
-      wrap={true}
+      wrap
       direction="row"
       align="center"
       border="all"
       round="xsmall"
       pad="xxsmall"
     >
-      { value.length > 0 && renderTags(value, onRemove) }
+      { value.length > 0 && renderTags(value) }
       <Box
         alignSelf="stretch"
         align="start"
-        flex={true}
+        flex
         style={{ minWidth: '240px' }}
       >
         <TextInput
@@ -47,17 +52,9 @@ const TagSelect = ({
           onChange={({ target }) => setSearch(target.value)}
           onSelect={({ suggestion }) => {
             setSearch('')
-            onChange({ value: [ ...value, suggestion ] })
+            onChange([...value, suggestion])
           }}
-          suggestions={
-            suggestions
-              .filter((x) => {
-                return x[searchKey].toLowerCase().includes(search.toLowerCase())
-              }).map((x) => ({
-                label: <Box pad="xsmall">{x.name}</Box>,
-                value: x.id
-              }))
-          }
+          suggestions={suggestions}
         />
       </Box>
     </Box>
@@ -65,12 +62,18 @@ const TagSelect = ({
 }
 
 TagSelect.propTypes = {
-  suggestions: PropTypes.array,
+  options: PropTypes.arrayOf(PropTypes.object),
   value: PropTypes.array,
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  searchKey: PropTypes.string,
-  onRemove: PropTypes.func
+  searchKey: PropTypes.string
+}
+
+TagSelect.defaultProps = {
+  options: [],
+  value: [],
+  placeholder: '',
+  searchKey: 'name'
 }
 
 export default TagSelect

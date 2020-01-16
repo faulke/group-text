@@ -3,39 +3,20 @@ import { FormField } from 'grommet'
 import PropTypes from 'prop-types'
 import TagSelect from './TagSelect'
 
-const GroupSelect = ({ groups = [], value = [], setGroups }) => {
-  const getSuggestions = () => {
-    const groupIds = groups.map(x => x.id)
-    const suggIds = value.map(x => x.value)
-    const suggs = groupIds.filter(x => !suggIds.includes(x))
-    return groups.filter(x => suggs.includes(x.id))
-  }
-
-  const onRemove = (index) => {
-    const newGroups = [...value]
-    newGroups.splice(index, 1)
-    setGroups(newGroups)
-  }
-
-  return (
-    <FormField
-      label="Groups"
-      name="groups"
-      component={({ ...props }) => {
-        return (
-          <TagSelect
-            suggestions={getSuggestions()}
-            placeholder="Select group(s)"
-            onRemove={onRemove}
-            value={value}
-            {...props}
-          />
-        )
-      }}
-      onChange={(target) => setGroups(target.value)}
+const GroupSelect = ({ groups = [], value = [], setGroups, ...props }) => (
+  <FormField
+    label="Groups"
+    name="groups"
+  >
+    <TagSelect
+      options={groups}
+      placeholder="Select group(s)"
+      value={value}
+      onChange={setGroups}
+      {...props}
     />
-  )
-}
+  </FormField>
+)
 
 GroupSelect.propTypes = {
   groups: PropTypes.arrayOf(PropTypes.object),

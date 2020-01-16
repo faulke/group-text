@@ -4,14 +4,11 @@ import {
   Form,
   Button
 } from 'grommet'
-import AddContactModal from './AddContactModal'
-import GroupSelect from './GroupSelect'
-import PhoneInput from './PhoneInput'
+import AddGroupModal from './AddGroupModal'
 
-describe('AddContactModal', () => {
+describe('AddGroupModal', () => {
   const mockOnSubmit = jest.fn()
   const mockSetShow = jest.fn()
-  const group = { name: 'test' }
   let wrapper
 
   beforeEach(() => {
@@ -19,7 +16,7 @@ describe('AddContactModal', () => {
     mockSetShow.mockClear()
 
     wrapper = mount(
-      <AddContactModal
+      <AddGroupModal
         onSubmit={mockOnSubmit}
         setShow={mockSetShow}
       />
@@ -35,33 +32,18 @@ describe('AddContactModal', () => {
     expect(mockSetShow).toHaveBeenCalledWith(false)
   })
 
-  it('should show group name when group prop is set', () => {
-    wrapper.setProps({ group })
-    expect(wrapper.find('h3')).toIncludeText(group.name)
-  })
-
-  it('should show group selecter if groups prop set', () => {
-    wrapper.setProps({ groups: [group] })
-    expect(wrapper.find(GroupSelect)).toExist()
-  })
-
   it('should call onSubmit when form submitted', () => {
-    // use shallow to avoid form validation issues
     wrapper = shallow(
-      <AddContactModal
+      <AddGroupModal
         onSubmit={mockOnSubmit}
         setShow={mockSetShow}
       />
     )
+
     wrapper.find(Form).simulate('submit', {
       value: 'values',
       preventDefault: () => ''
     })
     expect(mockOnSubmit).toHaveBeenCalledTimes(1)
-  })
-
-  it('should render form field as phone input', () => {
-    const phone = wrapper.find(PhoneInput)
-    expect(phone).toExist()
   })
 })
