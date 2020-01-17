@@ -41,5 +41,6 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["setupJest.js"]
 }

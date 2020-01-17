@@ -33,7 +33,9 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "babel-eslint": "^10.0.3",
+    "deep-freeze": "0.0.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-airbnb": "^18.0.1",
@@ -44,7 +46,8 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2"
+    "jest-enzyme": "^7.1.2",
+    "jest-fetch-mock": "^3.0.1"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -71,6 +74,9 @@
     },
     "moduleNameMapper": {
       "^.+\\.svg$": "<rootDir>/empty-module.js"
-    }
+    },
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   }
 }
