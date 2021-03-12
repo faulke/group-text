@@ -44,7 +44,7 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest-environment-enzyme": "^7.1.2",
     "jest-enzyme": "^7.1.2",
-    "react-dev-utils": "^10.0.0",
+    "react-dev-utils": "^11.0.4",
     "react-scripts": "^3.4.0"
   },
   "eslintConfig": {
